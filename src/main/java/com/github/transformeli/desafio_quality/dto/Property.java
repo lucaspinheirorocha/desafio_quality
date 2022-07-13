@@ -18,7 +18,7 @@ public class Property {
     @Pattern(regexp = "\"([A-Z]|[0-9])[\\\\s|[0-9]|A-Z|a-z|ñ|ó|í|á|é|ú|Á|Ó|É|Í|Ú]*$\"", message = "O nome da propriedade deve comecar com uma letra maíuscula!")
     @Size(max= 30, message = "O comprimento do nome não pode exceder trinta caracteres!")
     private String name;
-    private Set<@Valid Room> room;
+    private Set<@Valid Room> rooms;
     private @Valid Neighborhood neighborhood;
 
     public double propertyDimensions(){
