@@ -19,9 +19,7 @@ public class Property {
     @Size(max= 30, message = "O comprimento do nome não pode exceder trinta caracteres!")
     private String name;
     private Set<@Valid Room> room;
-    @NotBlank(message = "O bairro não pode estar vazio!")
-    @Size(max = 45,message = "O comprimento do bairro não pode exceder 45 caracteres!")
-    private Neighborhood neighborhood;
+    private @Valid Neighborhood neighborhood;
 
     public double propertyDimensions(){
         return 0.0;
