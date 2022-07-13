@@ -2,6 +2,7 @@ package com.github.transformeli.desafio_quality.repository;
 
 import com.github.transformeli.desafio_quality.dto.Neighborhood;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
+import com.github.transformeli.desafio_quality.exception.PreconditionFailedException;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 
@@ -47,7 +48,7 @@ public class NeighborhoodRepository implements ICrud<Neighborhood> {
             return memoryDB.get(key);
         }
         // TODO: customException
-        throw new NotFoundException("neighborhood already exists");
+        throw new PreconditionFailedException("neighborhood already exists");
     }
 
     /**
