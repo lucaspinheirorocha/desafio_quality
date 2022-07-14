@@ -63,6 +63,7 @@ public class PropertyRepository implements ICrud<Property> {
         String key = getKey(property);
         if(memoryDB.containsKey(key)){
             memoryDB.put(key,property);
+            return memoryDB.get(key);
         }
         throw new NotFoundException("The property not exists.");
     }
@@ -78,6 +79,7 @@ public class PropertyRepository implements ICrud<Property> {
         String key = getKey(property);
         if(memoryDB.containsKey(key)){
             memoryDB.remove(key,property);
+            return true;
         }
         throw new NotFoundException("The property not exist.");
     }
