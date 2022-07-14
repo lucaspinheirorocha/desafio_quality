@@ -1,6 +1,7 @@
 package com.github.transformeli.desafio_quality.repository;
 
 import com.github.transformeli.desafio_quality.dto.Client;
+import com.github.transformeli.desafio_quality.exception.BadRequestException;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
 import org.springframework.stereotype.Repository;
 
@@ -58,7 +59,7 @@ public class ClientRepository implements ICrud<Client> {
             return memoryDB.get(key);
         }
         // TODO: customException
-        throw new NotFoundException("Client already exists");
+        throw new BadRequestException("Client already exists");
     }
 
     /**
