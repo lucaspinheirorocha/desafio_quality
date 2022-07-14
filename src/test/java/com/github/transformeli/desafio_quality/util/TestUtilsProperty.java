@@ -23,6 +23,13 @@ public class TestUtilsProperty {
         return buildProperty("Casa da Lari", "Penha", rooms);
     }
 
+    /**
+     *
+     * @param name property name
+     * @param neighborhood neighborhood name
+     * @param rooms list of rooms
+     * @return
+     */
     public static Property buildProperty(
             String name,
             String neighborhood,
@@ -37,6 +44,7 @@ public class TestUtilsProperty {
     }
 
     /**
+     * This method provides three properties to be used in unit tests
      * @author Larissa Navarro
      * @author Lucas Pinheiro
      * @return
@@ -48,6 +56,18 @@ public class TestUtilsProperty {
         list.add(TestUtilsProperty.buildProperty("Casa do Lucas", "Jabotiana", buildRooms()));
 
         return list;
+    }
+
+    /**
+     * @author Isaias Finger and Rebecca Cruz
+     * @return
+     */
+    public static Room getNewRoom() {
+        Room room = new Room();
+        room.setName("Test");
+        room.setLength(2D);
+        room.setWidth(3D);
+        return room;
     }
 
 }

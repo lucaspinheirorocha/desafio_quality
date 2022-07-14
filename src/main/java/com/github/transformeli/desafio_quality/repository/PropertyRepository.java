@@ -34,7 +34,7 @@ public class PropertyRepository implements ICrud<Property> {
      */
     @Override
     public Property findByKey(String key) {
-        return this.memoryDB.get(key.toLowerCase());
+        return this.memoryDB.get(key.toLowerCase().replace(" ", ""));
     }
 
     /**
