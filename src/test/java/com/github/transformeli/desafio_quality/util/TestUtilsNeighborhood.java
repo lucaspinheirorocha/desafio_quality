@@ -3,7 +3,10 @@ package com.github.transformeli.desafio_quality.util;
 import com.github.transformeli.desafio_quality.dto.Neighborhood;
 
 import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TestUtilsNeighborhood {
 
@@ -28,5 +31,17 @@ public class TestUtilsNeighborhood {
         list.add(buildNeighborhood("Jabotiana", 10.0D));
         list.add(buildNeighborhood("Vila Matilde", 5.0D));
         return list;
+    }
+
+    public static Neighborhood findByName(String neighborhoodName)
+    {
+        Set<Neighborhood> allNeighborhoods = TestUtilsNeighborhood.getSetOfNeighborhood();
+        String nameTrimmed = neighborhoodName.replace(" ", "");
+        List<Neighborhood> foundNeighborhood = allNeighborhoods
+                .stream()
+                .filter(n -> n.getName().replace(" ", "")
+                        .equalsIgnoreCase(nameTrimmed)).collect(Collectors.toList());
+
+        return foundNeighborhood.get(0);
     }
 }
