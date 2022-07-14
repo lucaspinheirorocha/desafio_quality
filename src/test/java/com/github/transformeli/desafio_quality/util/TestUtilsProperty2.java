@@ -3,6 +3,7 @@ package com.github.transformeli.desafio_quality.util;
 import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.dto.Room;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,5 +34,10 @@ public class TestUtilsProperty2 {
 
         prop.setRooms(roomsTest);
         return prop;
+    }
+
+    public static Room propBiggestRoom() {
+        Property property = getNewProperty();
+        return property.getRooms().stream().max(Comparator.comparing(r -> r.getLength() * r.getWidth())).get();
     }
 }
