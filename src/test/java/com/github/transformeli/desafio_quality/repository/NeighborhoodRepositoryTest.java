@@ -6,6 +6,8 @@ import com.github.transformeli.desafio_quality.exception.PreconditionFailedExcep
 import com.github.transformeli.desafio_quality.util.TestUtilsNeighborhood;
 import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
+
+import java.util.Optional;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,9 +40,9 @@ class NeighborhoodRepositoryTest {
     void findByKey_whenNotExists() {
         Neighborhood neighborhood = TestUtilsNeighborhood.getNewNeighborhood();
 
-        Neighborhood result = repo.findByKey(neighborhood.getName().toUpperCase()).get();
+        Optional<Neighborhood> result = repo.findByKey(neighborhood.getName().toUpperCase());
 
-        assertThat(result).isNull();
+        assertThat(result.isEmpty()).isTrue();
     }
 
     @Test

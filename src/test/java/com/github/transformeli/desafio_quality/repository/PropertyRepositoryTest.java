@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -53,7 +54,7 @@ class PropertyRepositoryTest {
     void findByKey() {
         final String PROPERTY_NAME = "Casa do Isaias";
 
-        Property foundProperty = repo.findByKey(PROPERTY_NAME);
+        Property foundProperty = repo.findByKey(PROPERTY_NAME).get();
 
         assertThat(foundProperty).isNotNull();
         assertThat(foundProperty.getName()).isEqualTo(PROPERTY_NAME);
@@ -64,9 +65,9 @@ class PropertyRepositoryTest {
     void findByKey_null() {
         final String PROPERTY_NAME = "Casa do Emerson";
 
-        Property foundProperty = repo.findByKey(PROPERTY_NAME);
+        Optional<Property> foundProperty = repo.findByKey(PROPERTY_NAME);
 
-        assertThat(foundProperty).isNull();
+        assertThat(foundProperty.isEmpty()).isTrue();
     }
 
     @DisplayName("Create a property successfully when we provides name, neighborhood and roomsList correctly")

@@ -3,18 +3,18 @@ package com.github.transformeli.desafio_quality.repository;
 import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
 import com.github.transformeli.desafio_quality.exception.PreconditionFailedException;
-import org.springframework.util.LinkedCaseInsensitiveMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class PropertyRepository implements ICrud<Property> {
 
     private Map<String,Property> memoryDB = new HashMap<>();
 
-    public String getKey(Property property){
-        return property.getName().toLowerCase().replace(" ", "");
+    private String getKey(String name) {
+        return name.toLowerCase().replace(" ", "");
+    }
+
+    public String getKey(Property property) {
+        return getKey(property.getName());
     }
 
     /**
@@ -30,11 +30,15 @@ public class PropertyRepository implements ICrud<Property> {
     /**
      * find a element by key
      * @author laridevmeli
-     * @param key property name
+     * @param name property name
      */
     @Override
-    public Property findByKey(String key) {
-        return this.memoryDB.get(key.toLowerCase().replace(" ", ""));
+    public Optional<Property> findByKey(String name) {
+        String key = getKey(name);
+        if(this.memoryDB.containsKey(key)) {
+            return Optional.of(this.memoryDB.get(key));
+        }
+        return Optional.empty();
     }
 
     /**
