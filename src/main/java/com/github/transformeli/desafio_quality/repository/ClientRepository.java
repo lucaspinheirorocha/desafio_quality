@@ -5,10 +5,7 @@ import com.github.transformeli.desafio_quality.exception.BadRequestException;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class ClientRepository implements ICrud<Client> {
@@ -43,7 +40,13 @@ public class ClientRepository implements ICrud<Client> {
      */
 
     @Override
-    public Client findByKey(String key) { return this.memoryDB.get(key.toLowerCase()); }
+    public Optional<Client> findByKey(String key) {
+        key = key.toLowerCase();
+        if(this.memoryDB.containsKey(key)) {
+            return Optional.of(this.memoryDB.get(key));
+        }
+        return Optional.empty();
+    }
 
     /**
      * Create a client
