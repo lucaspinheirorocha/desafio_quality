@@ -2,7 +2,6 @@ package com.github.transformeli.desafio_quality.service;
 
 import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.dto.Room;
-import com.github.transformeli.desafio_quality.util.TestUtilsProperty;
 import com.github.transformeli.desafio_quality.util.TestUtilsProperty2;
 import org.junit.jupiter.api.*;
 
@@ -19,19 +18,16 @@ class PropertyServiceTest {
 
     @Test
     void roomTotalArea() {
-        Room room = TestUtilsProperty.getNewRoom();
+        Room room = TestUtilsProperty2.getNewRoom();
 
         Double result = service.roomTotalArea(room);
 
         assertThat(result).isEqualTo(6D);
-        assertThat(result).isPositive();
-        assertThat(result).isNotNull();
-
     }
 
     @Test
     void propTotalArea() {
-        Property prop = TestUtilsProperty.getNewProperty();
+        Property prop = TestUtilsProperty2.getNewProperty();
 
         Double result = service.propTotalArea(prop);
 
