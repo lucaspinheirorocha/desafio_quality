@@ -21,6 +21,6 @@ public class Room {
     @DecimalMax(value = "33.0", message = "O comprimento máximo permitido por cômodo é de 33 metros.")
     private Double length;
     @NotBlank(message = "A largura do cômodo não pode estar vazio.")
-    @DecimalMax(value = "25.0", message = "A largura máxima permitida por cômodo é de 33 metros.")
+    @DecimalMax(value = "25.0", message = "A largura máxima permitida por cômodo é de 25 metros.")
     private Double width;
 }

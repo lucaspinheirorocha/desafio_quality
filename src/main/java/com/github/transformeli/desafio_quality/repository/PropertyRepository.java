@@ -14,7 +14,7 @@ public class PropertyRepository implements ICrud<Property> {
     private Map<String,Property> memoryDB = new HashMap<>();
 
     public String getKey(Property property){
-        return property.getName().toLowerCase();
+        return property.getName().toLowerCase().replace(" ", "");
     }
 
     /**
@@ -47,6 +47,7 @@ public class PropertyRepository implements ICrud<Property> {
         String key = getKey(property);
         if(!memoryDB.containsKey(key)){
             memoryDB.put(key,property);
+            return property;
         }
         throw new PreconditionFailedException("The property already exists.");
     }
