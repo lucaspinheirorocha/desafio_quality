@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
-public class PropertyService {
+public class PropertyService implements IPropertyService {
 
     /**
      * Total area calculator per room
