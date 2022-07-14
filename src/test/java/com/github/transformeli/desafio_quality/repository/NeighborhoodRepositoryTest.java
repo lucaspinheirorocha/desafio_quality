@@ -6,6 +6,8 @@ import com.github.transformeli.desafio_quality.exception.PreconditionFailedExcep
 import com.github.transformeli.desafio_quality.util.TestUtilsNeighborhood;
 import org.junit.jupiter.api.*;
 import org.springframework.http.HttpStatus;
+
+import java.util.Optional;
 import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,7 +29,7 @@ class NeighborhoodRepositoryTest {
         Neighborhood neighborhoodSaved = repo.create(neighborhood);
         assertThat(neighborhoodSaved.getName()).isEqualTo(neighborhood.getName());
 
-        Neighborhood result = repo.findByKey(neighborhood.getName().toUpperCase());
+        Neighborhood result = repo.findByKey(neighborhood.getName().toUpperCase()).get();
 
         assertThat(result.getName()).isEqualTo(neighborhoodSaved.getName());
         assertThat(result.getSqMeterPrice()).isEqualTo(neighborhoodSaved.getSqMeterPrice());
@@ -38,9 +40,9 @@ class NeighborhoodRepositoryTest {
     void findByKey_whenNotExists() {
         Neighborhood neighborhood = TestUtilsNeighborhood.getNewNeighborhood();
 
-        Neighborhood result = repo.findByKey(neighborhood.getName().toUpperCase());
+        Optional<Neighborhood> result = repo.findByKey(neighborhood.getName().toUpperCase());
 
-        assertThat(result).isNull();
+        assertThat(result.isEmpty()).isTrue();
     }
 
     @Test
@@ -93,7 +95,7 @@ class NeighborhoodRepositoryTest {
         neighborhood.setSqMeterPrice(newSqMeterPrice);
         repo.update(neighborhood);
 
-        Neighborhood updated = repo.findByKey(neighborhood.getName());
+        Neighborhood updated = repo.findByKey(neighborhood.getName()).get();
         assertThat(updated.getSqMeterPrice()).isNotEqualTo(oldSqMeterPrice);
         assertThat(updated.getSqMeterPrice()).isEqualTo(newSqMeterPrice);
     }
