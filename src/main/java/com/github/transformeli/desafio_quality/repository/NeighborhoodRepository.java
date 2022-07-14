@@ -47,7 +47,6 @@ public class NeighborhoodRepository implements ICrud<Neighborhood> {
             memoryDB.put(key, neighborhood);
             return memoryDB.get(key);
         }
-        // TODO: customException
         throw new PreconditionFailedException("neighborhood already exists");
     }
 
@@ -76,7 +75,7 @@ public class NeighborhoodRepository implements ICrud<Neighborhood> {
             memoryDB.remove(key);
             return true;
         }
-        return false;
+        throw new NotFoundException("neighborhood not found");
     }
 
 }
