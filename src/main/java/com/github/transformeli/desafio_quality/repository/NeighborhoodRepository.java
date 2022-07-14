@@ -11,19 +11,28 @@ public class NeighborhoodRepository implements ICrud<Neighborhood> {
 
     private Map<String, Neighborhood> memoryDB = new HashMap<>();
 
+    private String getKey(String name)
+    {
+        return name.toLowerCase().replace(" ", "");
+    }
+
     private String getKey(Neighborhood neighborhood)
     {
-        return neighborhood.getName().toLowerCase();
+        return getKey(neighborhood.getName());
     }
 
     /**
      * Find neighborhood by Id
      * @author Transformeli
-     * @param key Neighborhood Name
+     * @param name Neighborhood Name
      */
-    public Neighborhood findByKey(String key)
+    public Optional<Neighborhood> findByKey(String name)
     {
-        return this.memoryDB.get(key.toLowerCase());
+        String key = getKey(name);
+        if(this.memoryDB.containsKey(key)) {
+            return Optional.of(this.memoryDB.get(key));
+        }
+        return Optional.empty();
     }
 
     /**
