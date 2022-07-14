@@ -50,4 +50,12 @@ public class TestUtilsProperty {
         return list;
     }
 
+    public static Room getNewRoom() {
+        Room room = new Room();
+        room.setName("Test");
+        room.setLength(2D);
+        room.setWidth(3D);
+        return room;
+    }
+
 }
