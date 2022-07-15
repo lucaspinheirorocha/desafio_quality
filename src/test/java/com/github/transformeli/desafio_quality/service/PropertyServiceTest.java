@@ -71,6 +71,7 @@ class PropertyServiceTest {
         });
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
 
+        
 
     }
 
