@@ -57,19 +57,6 @@ public class TestUtilsProperty {
 
         return list;
     }
-    /**
-     *  get new room
-     *  @author Isaias Finger
-     *
-     */
-
-    public static Room getNewRoom() {
-        Room room = new Room();
-        room.setName("Test");
-        room.setLength(2D);
-        room.setWidth(3D);
-        return room;
-    }
 
     public static Property getEmptyRooms()
     {
@@ -77,6 +64,8 @@ public class TestUtilsProperty {
     }
 
     /**
+     * Get new room
+     *
      * @author Isaias Finger and Rebecca Cruz
      * @return
      */
