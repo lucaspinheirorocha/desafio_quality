@@ -95,7 +95,7 @@ public class PropertyRepository implements ICrud<Property> {
             return true;
 
         }
-        throw new NotFoundException("The property not exist.");
+        throw new NotFoundException("The property not exists.");
     }
 
 
