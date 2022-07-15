@@ -3,8 +3,17 @@ package com.github.transformeli.desafio_quality.repository;
 import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
 import com.github.transformeli.desafio_quality.exception.PreconditionFailedException;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Repository;
+
 import java.util.*;
 
+@Repository
+@NoArgsConstructor
+@AllArgsConstructor
 public class PropertyRepository implements ICrud<Property> {
 
     private Map<String,Property> memoryDB = new HashMap<>();
