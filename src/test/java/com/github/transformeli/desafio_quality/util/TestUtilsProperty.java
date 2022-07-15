@@ -57,6 +57,24 @@ public class TestUtilsProperty {
 
         return list;
     }
+    /**
+     *  get new room
+     *  @author Isaias Finger
+     *
+     */
+
+    public static Room getNewRoom() {
+        Room room = new Room();
+        room.setName("Test");
+        room.setLength(2D);
+        room.setWidth(3D);
+        return room;
+    }
+
+    public static Property getEmptyRooms()
+    {
+        return buildProperty("Casa da Lari", "Penha",new HashSet<>());
+    }
 
     /**
      * @author Isaias Finger and Rebecca Cruz
