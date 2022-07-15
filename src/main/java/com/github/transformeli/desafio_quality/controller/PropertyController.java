@@ -4,6 +4,7 @@ import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.dto.Room;
 import com.github.transformeli.desafio_quality.service.IPropertyService;
 import com.github.transformeli.desafio_quality.service.PropertyService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,8 @@ import java.util.Set;
 @RequestMapping("/api/v1/property")
 public class PropertyController {
 
-    private IPropertyService service = new PropertyService();
+    @Autowired
+    IPropertyService service;
 
     /**
      * Endpoint for create a new property
