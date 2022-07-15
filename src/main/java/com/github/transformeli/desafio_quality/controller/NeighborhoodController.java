@@ -18,13 +18,18 @@ public class NeighborhoodController {
     INeighborhoodService service;
 
     @GetMapping("")
-    public ResponseEntity<Set<Neighborhood>> findAll(@RequestParam Optional<String> name) {
+    public ResponseEntity<Set<Neighborhood>> findAll() {
+        return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<Set<Neighborhood>> findOne(@PathVariable Optional<String> name) {
         if(name.isPresent())
         {
             Optional<Neighborhood> result = service.findByKey(name);
             return ResponseEntity.ok(Collections.singleton(result.get()));
         }
-        return ResponseEntity.ok(service.findAll());
+        throw new NotFoundException("neighborhood not found");
     }
 
     @PostMapping("")
@@ -33,20 +38,15 @@ public class NeighborhoodController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @PutMapping("")
-    public ResponseEntity<Neighborhood> update(@RequestBody @Valid Neighborhood neighborhood) {
-        Neighborhood result = service.update(neighborhood);
+    @PutMapping("/{name}")
+    public ResponseEntity<Neighborhood> update(@RequestBody @Valid Neighborhood neighborhood, @PathVariable String name) {
+        Neighborhood result = service.update(name, neighborhood);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<Void> delete(@RequestParam Optional<String> name) {
-        Optional<Neighborhood> result = service.findByKey(name);
-        if (result.isPresent()) {
-            service.delete(result.get());
-        } else {
-            throw new NotFoundException("neighborhood not found");
-        }
+    @DeleteMapping("/{name}")
+    public ResponseEntity<Void> delete(@PathVariable String name) {
+        service.delete(name);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

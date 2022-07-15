@@ -41,9 +41,9 @@ public class PropertyController {
      * @param property
      * @return ResponseEntity
      */
-    @PutMapping("")
-    public ResponseEntity<Property> updateNProperty(@RequestBody @Valid Property property){
-        Property result =  service.updateProperty(property);
+    @PutMapping("/{name}")
+    public ResponseEntity<Property> updateNProperty(@RequestBody @Valid Property property, @PathVariable String name){
+        Property result =  service.updateProperty(name, property);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
@@ -54,9 +54,9 @@ public class PropertyController {
      * @param property
      * @return ResponseEntity
      */
-    @DeleteMapping("")
-    public ResponseEntity<Void> deleteProperty(@RequestBody @Valid Property property) {
-        Boolean result = service.deleteProperty(property);
+    @DeleteMapping("/{name}")
+    public ResponseEntity<Void> deleteProperty(@PathVariable String name) {
+        Boolean result = service.deleteProperty(name);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

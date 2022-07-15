@@ -18,9 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.http.HttpStatus;
-
 import java.util.HashSet;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.Mockito.atLeastOnce;
@@ -38,9 +36,8 @@ class PropertyServiceTest {
     @BeforeEach
     void setup() {
         BDDMockito.when(repository.create(ArgumentMatchers.any(Property.class))).thenReturn(TestUtilsProperty.getNewProperty());
-        BDDMockito.when(repository.update(ArgumentMatchers.any(Property.class))).thenReturn(TestUtilsProperty.getNewProperty());
-        BDDMockito.when(repository.delete(ArgumentMatchers.any(Property.class))).thenReturn(true);
-
+        BDDMockito.when(repository.update(ArgumentMatchers.anyString(), ArgumentMatchers.any(Property.class))).thenReturn(TestUtilsProperty.getNewProperty());
+        BDDMockito.when(repository.delete(ArgumentMatchers.anyString())).thenReturn(true);
     }
 
     /**
@@ -194,14 +191,17 @@ class PropertyServiceTest {
      */
     @Test
     void updateProperty_returnProperty_whenPropertyExists() {
-
+        BDDMockito.when(repository.update(ArgumentMatchers.anyString(), ArgumentMatchers.any(Property.class)))
+                .thenReturn(TestUtilsProperty.buildProperty("Teste123", "Penha", TestUtilsProperty.buildRooms()));
         Property prop = TestUtilsProperty.getNewProperty();
         Property propSaved = service.createNewProperty(prop);
         propSaved.setName("Teste123");
-        Property propModify = service.updateProperty(prop);
-        assertThat(propModify).isNotNull();
-        assertThat(propModify).isNotEqualTo(propSaved);
 
+        Property propModify = service.updateProperty(prop.getName(), propSaved);
+
+        assertThat(propModify).isNotNull();
+        assertThat(propModify.getName()).isEqualTo("Teste123");
+        assertThat(propModify).isNotEqualTo(prop);
     }
 
     /**
@@ -210,14 +210,13 @@ class PropertyServiceTest {
      */
     @Test
     void updateProperty_returnErrorException_whenPropertyNotExists() {
-        BDDMockito.when(repository.update(ArgumentMatchers.any(Property.class))).thenReturn(null);
+        BDDMockito.when(repository.update(ArgumentMatchers.anyString(),
+                ArgumentMatchers.any(Property.class))).thenReturn(null);
         Property prop = TestUtilsProperty.getNewProperty();
         ErrorPropertyRequestException ex = Assertions.assertThrows(ErrorPropertyRequestException.class, () -> {
-            service.updateProperty(prop);
+            service.updateProperty(prop.getName(), prop);
         });
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
-
-
     }
 
     /**
@@ -228,9 +227,8 @@ class PropertyServiceTest {
     void deleteProperty_whenPropertyExists() {
         Property prop = TestUtilsProperty.getNewProperty();
         Property create = service.createNewProperty(prop);
-        service.deleteProperty(create);
-        verify(repository, atLeastOnce()).delete(prop);
-
+        service.deleteProperty(create.getName());
+        verify(repository, atLeastOnce()).delete(prop.getName());
     }
 
     /**
@@ -239,10 +237,10 @@ class PropertyServiceTest {
      */
     @Test
     void deleteProperty_whenPropertyNotExists() {
-        BDDMockito.when(repository.delete(ArgumentMatchers.any(Property.class))).thenThrow(new NotFoundException("teste"));
+        BDDMockito.when(repository.delete(ArgumentMatchers.anyString())).thenThrow(new NotFoundException("teste"));
         Property prop = TestUtilsProperty.getNewProperty();
         NotFoundException ex = Assertions.assertThrows(NotFoundException.class, () -> {
-            service.deleteProperty(prop);
+            service.deleteProperty(prop.getName());
         });
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
     }

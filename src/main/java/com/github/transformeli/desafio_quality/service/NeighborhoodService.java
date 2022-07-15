@@ -34,12 +34,17 @@ public class NeighborhoodService implements INeighborhoodService {
         return repo.create(neighborhood);
     }
 
-    public Neighborhood update(Neighborhood neighborhood) {
-        return repo.update(neighborhood);
+    public Neighborhood update(String key, Neighborhood neighborhood) {
+        Optional<Neighborhood> neighborhoodFound = repo.findByKey(key);
+        if(neighborhoodFound.isPresent())
+        {
+            return repo.update(key, neighborhood);
+        }
+        throw new NotFoundException("neighborhood not found");
     }
 
-    public Boolean delete(Neighborhood neighborhood) {
-        return repo.delete(neighborhood);
+    public Boolean delete(String name) {
+        return repo.delete(name);
     }
 
 }

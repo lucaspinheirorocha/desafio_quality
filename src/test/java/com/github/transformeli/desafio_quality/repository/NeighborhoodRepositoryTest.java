@@ -93,7 +93,7 @@ class NeighborhoodRepositoryTest {
 
         Double newSqMeterPrice = oldSqMeterPrice / 2;
         neighborhood.setSqMeterPrice(newSqMeterPrice);
-        repo.update(neighborhood);
+        repo.update(neighborhood.getName(), neighborhood);
 
         Neighborhood updated = repo.findByKey(neighborhood.getName()).get();
         assertThat(updated.getSqMeterPrice()).isNotEqualTo(oldSqMeterPrice);
@@ -107,7 +107,7 @@ class NeighborhoodRepositoryTest {
         Neighborhood neighborhood = TestUtilsNeighborhood.getNewNeighborhood();
 
         NotFoundException ex = Assertions.assertThrows(NotFoundException.class, () -> {
-            repo.update(neighborhood);
+            repo.update(neighborhood.getName(), neighborhood);
         });
 
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
@@ -119,7 +119,7 @@ class NeighborhoodRepositoryTest {
         Neighborhood neighborhood = TestUtilsNeighborhood.getNewNeighborhood();
         repo.create(neighborhood);
 
-        Boolean hasDeleted = repo.delete(neighborhood);
+        Boolean hasDeleted = repo.delete(neighborhood.getName());
 
         assertThat(hasDeleted).isTrue();
     }
@@ -131,7 +131,7 @@ class NeighborhoodRepositoryTest {
         Neighborhood neighborhood = TestUtilsNeighborhood.getNewNeighborhood();
 
         NotFoundException ex = Assertions.assertThrows(NotFoundException.class, () -> {
-            repo.delete(neighborhood);
+            repo.delete(neighborhood.getName());
         });
 
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
