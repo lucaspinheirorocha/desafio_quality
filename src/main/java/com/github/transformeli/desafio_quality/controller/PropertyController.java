@@ -16,25 +16,19 @@ public class PropertyController {
 
     private IPropertyService service = new PropertyService();
 
-    @GetMapping("/")
-    public ResponseEntity<Void> index()
-    {
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<Property> createNewNProperty(@RequestBody @Valid Property property){
         Property result =  service.createNewProperty(property);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @PutMapping("/update")
+    @PutMapping("")
     public ResponseEntity<Property> updateNProperty(@RequestBody @Valid Property property){
         Property result =  service.updateProperty(property);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("")
     public ResponseEntity<Void> deleteProperty(@RequestBody @Valid Property property) {
         Boolean result = service.deleteProperty(property);
         return ResponseEntity.status(HttpStatus.OK).build();
