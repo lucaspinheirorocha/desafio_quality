@@ -8,6 +8,7 @@ import com.github.transformeli.desafio_quality.exception.NullPointerException;
 import com.github.transformeli.desafio_quality.exception.ErrorPropertyRequestException;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
 import com.github.transformeli.desafio_quality.repository.PropertyRepository;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import javax.validation.constraints.NotBlank;
@@ -21,14 +22,14 @@ import java.util.concurrent.atomic.AtomicReference;
 public class PropertyService implements IPropertyService {
 
     public boolean validation(Property property) {
-        if(property.getRooms().isEmpty() || property.getNeighborhood().equals(null)){
+        if(property.getRooms().isEmpty() || property.getNeighborhood()==null){
             throw new NotFoundException("Same attributes not found ");
         }
         return true;
 
     }
     public boolean validation(Room room){
-        if(room.equals(null)){
+        if(room == null){
             throw new NotFoundException("Room not found.");
         }
         return true;
@@ -99,7 +100,7 @@ public class PropertyService implements IPropertyService {
         if (result != null) {
             return result;
         }
-        throw new ErrorPropertyRequestException("Não foi possível criar nova pessoa proprietária.");
+        throw new ErrorPropertyRequestException("Não foi possível criar essa propriedade.");
     }
 
     /**
@@ -116,7 +117,7 @@ public class PropertyService implements IPropertyService {
         if (result != null) {
             return result;
         }
-        throw new ErrorPropertyRequestException("Não foi possível criar nova pessoa proprietária.");
+        throw new ErrorPropertyRequestException("Não foi possível atualizar a propriedade.");
     }
 
     /**
@@ -127,7 +128,7 @@ public class PropertyService implements IPropertyService {
      * @return Property
      */
     @Override
-    public Boolean deleteProperty(Property property) {
-        return repository.delete(property);
+    public void deleteProperty(Property property) {
+        repository.delete(property);
     }
 }

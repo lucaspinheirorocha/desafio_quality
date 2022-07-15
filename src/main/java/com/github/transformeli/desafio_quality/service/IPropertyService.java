@@ -10,5 +10,5 @@ public interface IPropertyService {
     Double propPriceByNeighborhood(Property property);
     Property createNewProperty(Property property);
     Property updateProperty(Property property);
-    Boolean deleteProperty(Property property);
+    void deleteProperty(Property property);
 }

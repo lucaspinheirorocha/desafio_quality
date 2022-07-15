@@ -56,7 +56,7 @@ public class PropertyController {
      */
     @DeleteMapping("")
     public ResponseEntity<Void> deleteProperty(@RequestBody @Valid Property property) {
-        Boolean result = service.deleteProperty(property);
+        service.deleteProperty(property);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
