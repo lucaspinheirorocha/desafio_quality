@@ -43,10 +43,10 @@ class PropertyServiceTest {
 
     }
 
-    /** test room total area when room exist
+    /**
+     * test room total area when room exist
      * @author Larissa Navarro
      */
-
     @Test
     void roomTotalArea_returnArea_whenRoomExists() {
         Room room = TestUtilsProperty.getNewRoom();
@@ -57,10 +57,11 @@ class PropertyServiceTest {
         assertThat(result).isNotNull();
         assertThat(result).isEqualTo(6D);
     }
-    /** test room total area when room not exist
+
+    /**
+     * test room total area when room not exist
      * @author Larissa Navarro
      */
-
     @Test
     void roomTotalArea_returnArea_whenRoomNotExists() {
         NotFoundException ex = Assertions.assertThrows(NotFoundException.class, () -> {
@@ -70,11 +71,11 @@ class PropertyServiceTest {
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
 
     }
-    /** test biggest room when room exist
+
+    /**
+     * test biggest room when room exist
      * @author Larissa Navarro
      */
-
-
     @Test
     void propBiggestRoom_returnBiggestRoom_WhenRoomExist() {
         Property prop = TestUtilsProperty.getNewProperty();
@@ -84,10 +85,11 @@ class PropertyServiceTest {
         assertThat(result).isNotNull();
         assertThat(result.getName()).isEqualTo("Sala");
     }
-    /** test biggest room when room not exist
+
+    /**
+     * test biggest room when room not exist
      * @author Larissa Navarro
      */
-
     @Test
     void propBiggestRoom_returnException_WhenRoomNotExist() {
         Property prop = TestUtilsProperty.getNewProperty();
@@ -99,10 +101,11 @@ class PropertyServiceTest {
 
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
     }
-    /** test price by neighborhood when neighborhood  exist
+
+    /**
+     * test price by neighborhood when neighborhood  exist
      * @author Larissa Navarro
      */
-
     @Test
     void propPriceByNeighborhood_returnValue_WhenNeighborhoodExists() {
         Property prop = TestUtilsProperty.getNewProperty();
@@ -112,7 +115,9 @@ class PropertyServiceTest {
         assertThat(result).isPositive();
 
     }
-    /** test price by neighborhood when neighborhood not exist
+
+    /**
+     * test price by neighborhood when neighborhood not exist
      * @author Larissa Navarro
      */
     @Test
@@ -125,10 +130,11 @@ class PropertyServiceTest {
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
 
     }
-    /** test property total area  when room not exist
+
+    /**
+     * test property total area  when room not exist
      * @author Larissa Navarro
      */
-
     @Test
     void propTotalArea_returnTotal_whenPropertyRoomExists() {
         Property prop = TestUtilsProperty.getNewProperty();
@@ -137,7 +143,9 @@ class PropertyServiceTest {
         assertThat(result).isPositive();
         assertThat(result).isEqualTo(615D);
     }
-    /** test property total area, return NotFoundException  when room not exist
+
+    /**
+     * test property total area, return NotFoundException  when room not exist
      * @author Larissa Navarro
      */
     @Test
@@ -150,10 +158,11 @@ class PropertyServiceTest {
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
 
     }
-    /** test create property
+
+    /**
+     * test create property
      * @author Larissa Navarro
      */
-
     @Test
     void createNewProperty_returnProperty_whenPropertyExists() {
 
@@ -163,10 +172,11 @@ class PropertyServiceTest {
         assertThat(propSaved).isNotNull();
         verify(repository, atLeastOnce()).create(prop);
     }
-    /** test create property  return Exception Error when object already exist
+
+    /**
+     * test create property  return Exception Error when object already exist
      * @author Larissa Navarro
      */
-
     @Test
     void createNewProperty_returnExceptionError_whenPropertyAlreadyExists() {
         BDDMockito.when(repository.create(ArgumentMatchers.any(Property.class))).thenReturn(null);
@@ -177,7 +187,9 @@ class PropertyServiceTest {
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
 
     }
-    /** test update property  when property exists
+
+    /**
+     * test update property  when property exists
      * @author Larissa Navarro
      */
     @Test
@@ -192,7 +204,8 @@ class PropertyServiceTest {
 
     }
 
-    /** test update property  return Exception Error when object not exist
+    /**
+     * test update property  return Exception Error when object not exist
      * @author Larissa Navarro
      */
     @Test
@@ -207,10 +220,10 @@ class PropertyServiceTest {
 
     }
 
-    /** test delete property  when object already exist
+    /**
+     * test delete property  when object already exist
      * @author Larissa Navarro
      */
-
     @Test
     void deleteProperty_whenPropertyExists() {
         Property prop = TestUtilsProperty.getNewProperty();
@@ -219,10 +232,11 @@ class PropertyServiceTest {
         verify(repository, atLeastOnce()).delete(prop);
 
     }
-    /** test delete property  return Not found exception when object not exist
+
+    /**
+     * test delete property  return Not found exception when object not exist
      * @author Larissa Navarro
      */
-
     @Test
     void deleteProperty_whenPropertyNotExists() {
         BDDMockito.when(repository.delete(ArgumentMatchers.any(Property.class))).thenThrow(new NotFoundException("teste"));
@@ -230,7 +244,6 @@ class PropertyServiceTest {
         NotFoundException ex = Assertions.assertThrows(NotFoundException.class, () -> {
             service.deleteProperty(prop);
         });
-
 
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
 

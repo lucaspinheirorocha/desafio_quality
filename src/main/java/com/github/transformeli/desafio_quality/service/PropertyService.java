@@ -128,7 +128,7 @@ public class PropertyService implements IPropertyService {
      * @return Property
      */
     @Override
-    public void deleteProperty(Property property) {
-        repository.delete(property);
+    public Boolean deleteProperty(Property property) {
+        return repository.delete(property);
     }
 }
