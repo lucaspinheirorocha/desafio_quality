@@ -94,8 +94,7 @@ public class PropertyRepository implements ICrud<Property> {
             memoryDB.remove(key,property);
             return true;
         }
-        throw new NotFoundException("The property not exist.");
+        throw new NotFoundException("The property not exists.");
     }
-
 
 }
