@@ -24,7 +24,7 @@ public class NeighborhoodRepository implements ICrud<Neighborhood> {
     /**
      * Find neighborhood by Id
      * @author Transformeli
-     * @param name Neighborhood Name
+* @param name Neighborhood Name
      */
     public Optional<Neighborhood> findByKey(String name)
     {

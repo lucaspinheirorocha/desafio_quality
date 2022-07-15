@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class TestUtilsProperty {
 
-    private static Set<Room> buildRooms()
+    public static Set<Room> buildRooms()
     {
         Set<Room> roomsUtil = new HashSet<>();
         roomsUtil.add(new Room("Cozinha", 10.00, 22.00));
