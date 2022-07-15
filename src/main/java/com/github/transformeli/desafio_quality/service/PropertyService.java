@@ -1,14 +1,26 @@
 package com.github.transformeli.desafio_quality.service;
 
+import com.github.transformeli.desafio_quality.dto.Neighborhood;
 import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.dto.Room;
+import com.github.transformeli.desafio_quality.exception.ErrorPropertyRequestException;
+import com.github.transformeli.desafio_quality.exception.NotFoundException;
+import com.github.transformeli.desafio_quality.repository.PropertyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class PropertyService implements IPropertyService {
+
+    @Autowired
+    private PropertyRepository repository;
 
     /**
      * Total area calculator per room
@@ -18,11 +30,6 @@ public class PropertyService implements IPropertyService {
      */
     public Double roomTotalArea(Room room) {
         return room.getLength() * room.getWidth();
-    }
-
-    public Double roomTotalArea(Property property)
-    {
-        return roomTotalArea(property.getRooms().stream().findFirst().get());
     }
 
     /**
@@ -60,4 +67,47 @@ public class PropertyService implements IPropertyService {
         return propArea * sqPrice;
     }
 
+    /**
+     * Create new Property
+     *
+     * @param property
+     * @author Evelyn Cristini Oliveira / Alexandre Borges Souza
+     * @return Property
+     */
+    public Property createNewProperty(Property property) {
+        Property result = repository.create(property);
+        if (result != null) {
+            return result;
+        }
+        throw new ErrorPropertyRequestException("Não foi possível criar nova pessoa proprietária.");
+    }
+
+    /**
+     * Update an Property
+     *
+     * @param property
+     * @author  Alexandre Borges Souza / Evelyn Cristini Oliveira
+     * @return Property
+     */
+    @Override
+    public Property updateProperty(Property property) {
+
+       Property result = repository.update(property);
+        if (result != null) {
+            return result;
+        }
+        throw new ErrorPropertyRequestException("Não foi possível criar nova pessoa proprietária.");
+    }
+
+    /**
+     * Delete an Property
+     *
+     * @param property
+     * @author  Evelyn Cristini Oliveira / Alexandre Borges Souza
+     * @return Property
+     */
+    @Override
+    public Boolean deleteProperty(Property property) {
+        return repository.delete(property);
+    }
 }

@@ -2,9 +2,9 @@ package com.github.transformeli.desafio_quality.controller;
 
 import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.dto.Room;
-import com.github.transformeli.desafio_quality.exception.BadRequestException;
 import com.github.transformeli.desafio_quality.service.IPropertyService;
 import com.github.transformeli.desafio_quality.service.PropertyService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +20,24 @@ public class PropertyController {
     public ResponseEntity<Void> index()
     {
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Property> createNewNProperty(@RequestBody @Valid Property property){
+        Property result =  service.createNewProperty(property);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<Property> updateNProperty(@RequestBody @Valid Property property){
+        Property result =  service.updateProperty(property);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteProperty(@RequestBody @Valid Property property) {
+        Boolean result = service.deleteProperty(property);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PostMapping("/rooms/propBiggestRoom")
