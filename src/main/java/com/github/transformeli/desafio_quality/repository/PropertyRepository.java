@@ -4,8 +4,6 @@ import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
 import com.github.transformeli.desafio_quality.exception.PreconditionFailedException;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -97,5 +95,4 @@ public class PropertyRepository implements ICrud<Property> {
         }
         throw new NotFoundException("The property not exists.");
     }
-
 }
