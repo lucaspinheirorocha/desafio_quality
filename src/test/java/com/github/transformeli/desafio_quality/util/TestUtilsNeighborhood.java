@@ -41,7 +41,10 @@ public class TestUtilsNeighborhood {
                 .stream()
                 .filter(n -> n.getName().replace(" ", "")
                         .equalsIgnoreCase(nameTrimmed)).collect(Collectors.toList());
-
+        if(foundNeighborhood.isEmpty())
+        {
+            return buildNeighborhood(neighborhoodName, 1.0D);
+        }
         return foundNeighborhood.get(0);
     }
 }
