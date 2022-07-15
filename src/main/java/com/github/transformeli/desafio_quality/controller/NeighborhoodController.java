@@ -2,7 +2,7 @@ package com.github.transformeli.desafio_quality.controller;
 
 import com.github.transformeli.desafio_quality.dto.Neighborhood;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
-import com.github.transformeli.desafio_quality.service.NeighborhoodService;
+import com.github.transformeli.desafio_quality.service.INeighborhoodService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import java.util.*;
 public class NeighborhoodController {
 
     @Autowired
-    NeighborhoodService service;
+    INeighborhoodService service;
 
     @GetMapping("")
     public ResponseEntity<Set<Neighborhood>> findAll(@RequestParam Optional<String> name) {
