@@ -6,6 +6,6 @@ public interface ICrud<T> {
     Set<T> findAll();
     Optional<T> findByKey(String key);
     T create(T object);
-    T update(T object);
-    Boolean delete(T object);
+    T update(String key, T object);
+    Boolean delete(String key);
 }

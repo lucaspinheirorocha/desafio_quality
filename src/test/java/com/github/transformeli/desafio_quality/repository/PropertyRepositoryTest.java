@@ -118,26 +118,12 @@ class PropertyRepositoryTest {
         Property savedHouse = repo.create(emersonsHouse);
         savedHouse.setRooms(TestUtilsProperty.buildRooms());
 
-        Property updatedProperty = repo.update(savedHouse);
+        Property updatedProperty = repo.update(savedHouse.getName(), savedHouse);
 
         assertThat(updatedProperty).isNotNull();
         assertThat(updatedProperty.getRooms().size())
                 .isEqualTo(savedHouse.getRooms().size());
     }
-
-//    @Test
-//    void update_bug_name() {
-//        Set<Room> listOfRooms = new HashSet<>();
-//        listOfRooms.add(TestUtilsProperty.getNewRoom());
-//        Property emersonsHouse = TestUtilsProperty.buildProperty(PROPERTY_NAME, NEIGHBORHOOD, listOfRooms);
-//        Property savedHouse = repo.create(emersonsHouse);
-//        savedHouse.setName("Emerson nao mora mais aqui");
-//
-//        Property updatedProperty = repo.update(savedHouse);
-//
-//        assertThat(updatedProperty).isNotNull();
-//        assertThat(updatedProperty.getName()).isEqualTo(savedHouse.getName());
-//    }
 
     @DisplayName("Update: throws a NotFoundException when we provides a nonexistent property")
     @Test
@@ -149,7 +135,7 @@ class PropertyRepositoryTest {
         emersonsHouse.setName("Emerson nao mora mais aqui");
 
         NotFoundException exception = Assertions.assertThrows(
-                NotFoundException.class, () -> repo.update(emersonsHouse)
+                NotFoundException.class, () -> repo.update(emersonsHouse.getName(), emersonsHouse)
         );
 
         assertThat(exception).isNotNull();
@@ -162,7 +148,7 @@ class PropertyRepositoryTest {
     void delete() {
         Property larisHouse = TestUtilsProperty.getNewProperty();
 
-        Boolean deletedProperty = repo.delete(larisHouse);
+        Boolean deletedProperty = repo.delete(larisHouse.getName());
 
         assertThat(deletedProperty).isTrue();
     }
@@ -175,7 +161,7 @@ class PropertyRepositoryTest {
         Property emersonsHouse = TestUtilsProperty.buildProperty(PROPERTY_NAME, NEIGHBORHOOD, listOfRooms);
 
         NotFoundException exception = Assertions.assertThrows(
-                NotFoundException.class, () -> repo.delete(emersonsHouse)
+                NotFoundException.class, () -> repo.delete(emersonsHouse.getName())
         );
 
         assertThat(exception).isNotNull();

@@ -9,6 +9,6 @@ public interface IPropertyService {
     Room propBiggestRoom(Property property);
     Double propPriceByNeighborhood(Property property);
     Property createNewProperty(Property property);
-    Property updateProperty(Property property);
-    Boolean deleteProperty(Property property);
+    Property updateProperty(String name, Property property);
+    Boolean deleteProperty(String name);
 }

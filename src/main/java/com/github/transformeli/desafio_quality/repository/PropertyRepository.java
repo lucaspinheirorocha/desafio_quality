@@ -11,7 +11,6 @@ import java.util.*;
 
 @Repository
 @NoArgsConstructor
-@AllArgsConstructor
 public class PropertyRepository implements ICrud<Property> {
 
     private Map<String,Property> memoryDB = new HashMap<>();
@@ -68,13 +67,14 @@ public class PropertyRepository implements ICrud<Property> {
      * @author laridevmeli
      * @param property element object
      */
-
     @Override
-    public Property update(Property property) {
-        String key = getKey(property);
-        if(memoryDB.containsKey(key)){
-            memoryDB.put(key,property);
-            return memoryDB.get(key);
+    public Property update(String name, Property property) {
+        String oldKey = getKey(name);
+        if(memoryDB.containsKey(oldKey)) {
+            memoryDB.remove(oldKey);
+            String newKey = getKey(property.getName());
+            memoryDB.put(newKey, property);
+            return memoryDB.get(newKey);
         }
         throw new NotFoundException("The property not exists.");
     }
@@ -84,14 +84,12 @@ public class PropertyRepository implements ICrud<Property> {
      * @author laridevmeli
      * @param property element object
      */
-
     @Override
-    public Boolean delete(Property property) {
-        String key = getKey(property);
-        if(memoryDB.containsKey(key)){
-            memoryDB.remove(key,property);
+    public Boolean delete(String name) {
+        String key = getKey(name);
+        if(memoryDB.containsKey(key)) {
+            memoryDB.remove(key);
             return true;
-
         }
         throw new NotFoundException("The property not exists.");
     }

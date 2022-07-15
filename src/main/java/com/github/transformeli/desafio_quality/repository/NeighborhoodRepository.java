@@ -24,7 +24,7 @@ public class NeighborhoodRepository implements ICrud<Neighborhood> {
     /**
      * Find neighborhood by Id
      * @author Transformeli
-* @param name Neighborhood Name
+     * @param name Neighborhood Name
      */
     public Optional<Neighborhood> findByKey(String name)
     {
@@ -64,11 +64,13 @@ public class NeighborhoodRepository implements ICrud<Neighborhood> {
      * @param neighborhood Class Instance
      * @author Transformeli
      */
-    public Neighborhood update(Neighborhood neighborhood) {
-        String key = getKey(neighborhood);
-        if (memoryDB.containsKey(key)) {
-            memoryDB.put(key, neighborhood);
-            return memoryDB.get(key);
+    public Neighborhood update(String name, Neighborhood neighborhood) {
+        String oldKey = getKey(name);
+        if (memoryDB.containsKey(oldKey)) {
+            memoryDB.remove(oldKey);
+            String newkey = getKey(neighborhood.getName());
+            memoryDB.put(newkey, neighborhood);
+            return memoryDB.get(newkey);
         }
         throw new NotFoundException("neighborhood not found");
     }
@@ -78,8 +80,8 @@ public class NeighborhoodRepository implements ICrud<Neighborhood> {
      * @param neighborhood Class Instance
      * @author Transformeli
      */
-    public Boolean delete(Neighborhood neighborhood) {
-        String key = getKey(neighborhood);
+    public Boolean delete(String name) {
+        String key = getKey(name);
         if (memoryDB.containsKey(key)) {
             memoryDB.remove(key);
             return true;

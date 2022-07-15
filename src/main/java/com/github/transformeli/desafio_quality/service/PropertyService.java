@@ -111,9 +111,8 @@ public class PropertyService implements IPropertyService {
      * @return Property
      */
     @Override
-    public Property updateProperty(Property property) {
-
-       Property result = repository.update(property);
+    public Property updateProperty(String name, Property property) {
+       Property result = repository.update(name, property);
         if (result != null) {
             return result;
         }
@@ -128,7 +127,7 @@ public class PropertyService implements IPropertyService {
      * @return Property
      */
     @Override
-    public Boolean deleteProperty(Property property) {
-        return repository.delete(property);
+    public Boolean deleteProperty(String name) {
+        return repository.delete(name);
     }
 }

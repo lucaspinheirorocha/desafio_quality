@@ -68,7 +68,7 @@ public class NeighborhoodIntegrationTest {
         Neighborhood neighborhood = TestUtilsNeighborhood.getNewNeighborhood();
 
         ResponseEntity<Neighborhood> retorno = testRestTemplate
-                .exchange(BASE_URL + neighborhood.getName(), HttpMethod.GET, null, Neighborhood.class);
+                .exchange(BASE_URL + "/" + neighborhood.getName(), HttpMethod.GET, null, Neighborhood.class);
 
         assertThat(retorno.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
@@ -82,7 +82,8 @@ public class NeighborhoodIntegrationTest {
         neighborhoodSaved.setName("Novo bairro");
         HttpEntity<Neighborhood> httpEntity = new HttpEntity<>(neighborhoodSaved);
 
-        ResponseEntity<Void> retorno = testRestTemplate.exchange(BASE_URL, HttpMethod.PUT, httpEntity, void.class);
+        ResponseEntity<Void> retorno = testRestTemplate
+                .exchange(BASE_URL + "/" + neighborhoodSaved.getName(), HttpMethod.PUT, httpEntity, Void.class);
 
         assertThat(retorno.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         Optional<Neighborhood> neighborhoodFound = dao.findByKey(neighborhoodSaved.getName());
