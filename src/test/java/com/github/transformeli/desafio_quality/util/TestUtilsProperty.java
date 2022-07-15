@@ -17,6 +17,12 @@ public class TestUtilsProperty {
         roomsUtil.add(new Room("Sala", 15.00, 23.00));
         return roomsUtil;
     }
+    
+    /**
+     * Provides a property that will be util to units tests
+     * @author Lucas Pinheiro
+     * @return
+     */
     public static Property getNewProperty()
     {
         Set<Room> rooms = buildRooms();
