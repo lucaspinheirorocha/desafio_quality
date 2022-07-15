@@ -131,12 +131,12 @@ public class NeighborhoodIntegrationTest {
     public void deleteNeighborhood_returnOk_whenNeighborhoodExist(){
         Neighborhood newNeighborhood = TestUtilsNeighborhood.getNewNeighborhood();
         HttpEntity<Neighborhood> httpEntity = new HttpEntity<>(newNeighborhood);
+        testRestTemplate.exchange(BASE_URL, HttpMethod.POST, httpEntity, Neighborhood.class);
 
-        ResponseEntity<Neighborhood> retorno = testRestTemplate
-                .exchange(BASE_URL + newNeighborhood.getName(), HttpMethod.DELETE, httpEntity, Neighborhood.class);
+        ResponseEntity<Void> retorno = testRestTemplate
+                .exchange(BASE_URL + "?name=" + newNeighborhood.getName(), HttpMethod.DELETE, null, void.class);
 
-        assertThat(retorno.getBody().getName()).isEqualTo(null);
-        //assertThat(retorno.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(retorno.getBody()).isEqualTo(null);
+        assertThat(retorno.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
-
 }
