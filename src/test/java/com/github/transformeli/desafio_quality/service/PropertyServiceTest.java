@@ -244,9 +244,7 @@ class PropertyServiceTest {
         NotFoundException ex = Assertions.assertThrows(NotFoundException.class, () -> {
             service.deleteProperty(prop);
         });
-
         assertThat(ex.getStatus()).isEqualTo(HttpStatus.NOT_FOUND);
-
     }
 
 
