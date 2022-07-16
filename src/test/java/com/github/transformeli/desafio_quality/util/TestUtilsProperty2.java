@@ -41,4 +41,8 @@ public class TestUtilsProperty2 {
         Property property = getNewProperty();
         return property.getRooms().stream().max(Comparator.comparing(r -> r.getLength() * r.getWidth())).get();
     }
+
+    public static Room propBiggestNoRoom () {
+        return  Room.builder().name("").width(null).length(null).build();
+    }
 }

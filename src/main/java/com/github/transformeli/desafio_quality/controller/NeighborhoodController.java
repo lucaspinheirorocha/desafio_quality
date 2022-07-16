@@ -23,11 +23,11 @@ public class NeighborhoodController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<Set<Neighborhood>> findOne(@PathVariable Optional<String> name) {
+    public ResponseEntity<Neighborhood> findOne(@PathVariable Optional<String> name) {
         if(name.isPresent())
         {
             Optional<Neighborhood> result = service.findByKey(name);
-            return ResponseEntity.ok(Collections.singleton(result.get()));
+            return ResponseEntity.ok(result.get());
         }
         throw new NotFoundException("neighborhood not found");
     }
