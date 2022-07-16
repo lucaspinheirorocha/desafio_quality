@@ -19,6 +19,11 @@ public class NeighborhoodService implements INeighborhoodService {
         return repo.findAll();
     }
 
+    /**
+     * Search for a neighborhood by its name
+     * @param name name of neighborhood
+     * @return
+     */
     public Optional<Neighborhood> findByKey(Optional<String> name) {
         Optional<Neighborhood> result = Optional.empty();
         if (name.isPresent()) {
@@ -30,10 +35,26 @@ public class NeighborhoodService implements INeighborhoodService {
         return result;
     }
 
+    /**
+     * Create a brand new neighborhood
+     * @param neighborhood a instance of Neighborhood Class
+     * @return
+     */
     public Neighborhood create(Neighborhood neighborhood) {
-        return repo.create(neighborhood);
+        Neighborhood createdNeighborhood = null;
+        try {
+            createdNeighborhood = repo.create(neighborhood);
+        } catch (Exception ex) {}
+        return createdNeighborhood;
     }
 
+    /**
+     *  Util for use on update tests
+     * @param key neighborhood name
+     * @param neighborhood neighborhood to update DB
+     * @author Lucas Pinheiro
+     * @return
+     */
     public Neighborhood update(String key, Neighborhood neighborhood) {
         Optional<Neighborhood> neighborhoodFound = repo.findByKey(key);
         if(neighborhoodFound.isPresent())
@@ -43,6 +64,11 @@ public class NeighborhoodService implements INeighborhoodService {
         throw new NotFoundException("neighborhood not found");
     }
 
+    /**
+     * Deletes a neighborhood given an existent property
+     * @param name name of a property
+     * @return
+     */
     public Boolean delete(String name) {
         return repo.delete(name);
     }

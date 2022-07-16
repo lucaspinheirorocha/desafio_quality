@@ -35,9 +35,17 @@ class PropertyServiceTest {
 
     @BeforeEach
     void setup() {
-        BDDMockito.when(repository.create(ArgumentMatchers.any(Property.class))).thenReturn(TestUtilsProperty.getNewProperty());
-        BDDMockito.when(repository.update(ArgumentMatchers.anyString(), ArgumentMatchers.any(Property.class))).thenReturn(TestUtilsProperty.getNewProperty());
-        BDDMockito.when(repository.delete(ArgumentMatchers.anyString())).thenReturn(true);
+        BDDMockito
+                .when(repository.create(ArgumentMatchers.any(Property.class)))
+                .thenReturn(TestUtilsProperty.getNewProperty());
+
+        BDDMockito
+                .when(repository.update(ArgumentMatchers.anyString(), ArgumentMatchers.any(Property.class)))
+                .thenReturn(TestUtilsProperty.getNewProperty());
+
+        BDDMockito
+                .when(repository.delete(ArgumentMatchers.anyString()))
+                .thenReturn(true);
     }
 
     /**
