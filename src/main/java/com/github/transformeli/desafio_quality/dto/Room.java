@@ -1,11 +1,13 @@
 package com.github.transformeli.desafio_quality.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

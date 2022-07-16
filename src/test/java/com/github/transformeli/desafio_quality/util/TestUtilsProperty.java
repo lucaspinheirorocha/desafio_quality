@@ -17,7 +17,7 @@ public class TestUtilsProperty {
         roomsUtil.add(new Room("Sala", 15.00, 23.00));
         return roomsUtil;
     }
-    
+
     /**
      * Provides a property that will be util to units tests
      * @author Lucas Pinheiro
@@ -81,6 +81,23 @@ public class TestUtilsProperty {
         room.setLength(2D);
         room.setWidth(3D);
         return room;
+    }
+
+    /**
+     * Gerenate new Property Without Contets
+     * @return Property
+     * @author Alexandre Borges Souza
+     */
+    public static Property generateNewPropertyWhitoutContents () {
+        return Property.builder().name("").build();
+    }
+
+    public static Double propPriceByNeighborhoodWithValue() {
+        return 300.00;
+    }
+
+    public static Double propPriceByNeighborhoodWithoutValue() {
+        return 0.0;
     }
 
 

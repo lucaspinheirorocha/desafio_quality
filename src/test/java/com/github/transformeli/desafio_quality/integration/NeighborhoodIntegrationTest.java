@@ -4,6 +4,7 @@ package com.github.transformeli.desafio_quality.integration;
 import com.github.transformeli.desafio_quality.dto.Neighborhood;
 import com.github.transformeli.desafio_quality.repository.NeighborhoodRepository;
 import com.github.transformeli.desafio_quality.util.TestUtilsNeighborhood;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -31,11 +29,18 @@ public class NeighborhoodIntegrationTest {
     @LocalServerPort
     private int port;
     private String BASE_URL;
-    private Class<Neighborhood> Set;
 
     @BeforeEach
-    void setup(){
+    void setup() {
         BASE_URL = "http://localhost:" + port + "/api/v1/property/neighborhood";
+    }
+
+    @AfterEach
+    void reset() {
+        Neighborhood newNeighborhood = TestUtilsNeighborhood.getNewNeighborhood();
+        if (repo.findByKey(newNeighborhood.getName()).isPresent()) {
+            repo.delete(newNeighborhood.getName());
+        }
     }
 
     @Test
@@ -74,19 +79,14 @@ public class NeighborhoodIntegrationTest {
     }
 
     @Test
-    public void modifyNeighborhood_returnStatusNotFound_whenNeighborhoodDoesntExist(){
+    public void modifyNeighborhood_returnStatusNotFound_whenNeighborhoodDoesntExist() {
         Neighborhood newNeighborhood = TestUtilsNeighborhood.getNewNeighborhood();
-        NeighborhoodRepository dao = new NeighborhoodRepository();
-        Neighborhood neighborhoodSaved = dao.create(newNeighborhood);
-
-        neighborhoodSaved.setName("Novo bairro");
-        HttpEntity<Neighborhood> httpEntity = new HttpEntity<>(neighborhoodSaved);
+        HttpEntity<Neighborhood> httpEntity = new HttpEntity<>(newNeighborhood);
 
         ResponseEntity<Void> retorno = testRestTemplate
-                .exchange(BASE_URL + "/" + neighborhoodSaved.getName(), HttpMethod.PUT, httpEntity, Void.class);
+                .exchange(BASE_URL + "/" + newNeighborhood.getName(), HttpMethod.PUT, httpEntity, Void.class);
 
         assertThat(retorno.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-        Optional<Neighborhood> neighborhoodFound = dao.findByKey(neighborhoodSaved.getName());
     }
 
     @Test
@@ -102,28 +102,29 @@ public class NeighborhoodIntegrationTest {
 
     @Test
     public void getNeighborhood_returnOk_whenNeighborhoodExist(){
-        Neighborhood newNeighborhood = TestUtilsNeighborhood.findByName("Penha");
+        Neighborhood newNeighborhood = TestUtilsNeighborhood.getNewNeighborhood();
         repo.create(newNeighborhood);
-        HttpEntity<Neighborhood> httpEntity = new HttpEntity<>(newNeighborhood);
 
         ResponseEntity<Neighborhood> retorno = testRestTemplate
-                .exchange(BASE_URL + "?name=" + newNeighborhood.getName(), HttpMethod.GET, null, Set);
+                .exchange(BASE_URL + "/" + newNeighborhood.getName(), HttpMethod.GET, null, Neighborhood.class);
 
+        assertThat(retorno.getBody().getName()).isEqualTo(newNeighborhood.getName());
         assertThat(retorno.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     @Test
     public void modifyNeighborhoodPrice_returnOk_whenNeighborhoodExists(){
         Neighborhood newNeighborhood = TestUtilsNeighborhood.getNewNeighborhood();
-        HttpEntity<Neighborhood> httpEntity = new HttpEntity<>(newNeighborhood);
-        testRestTemplate.exchange(BASE_URL, HttpMethod.POST, httpEntity, Neighborhood.class);
+        repo.create(newNeighborhood);
         Neighborhood updateNeighborhood = TestUtilsNeighborhood.getNewNeighborhood();
-
+        updateNeighborhood.setName("New Name Test");
         updateNeighborhood.setSqMeterPrice(100.0);
-        httpEntity = new HttpEntity<>(updateNeighborhood);
+        HttpEntity<Neighborhood> httpEntity = new HttpEntity<>(updateNeighborhood);
 
-        ResponseEntity<Neighborhood> retorno  = testRestTemplate.exchange(BASE_URL, HttpMethod.PUT, httpEntity, Neighborhood.class);
+        ResponseEntity<Neighborhood> retorno  = testRestTemplate
+                .exchange(BASE_URL + "/" + newNeighborhood.getName(), HttpMethod.PUT, httpEntity, Neighborhood.class);
 
+        assertThat(retorno.getBody().getName()).isEqualTo("New Name Test");
         assertThat(retorno.getBody().getSqMeterPrice()).isEqualTo(100.0);
         assertThat(retorno.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
@@ -131,11 +132,10 @@ public class NeighborhoodIntegrationTest {
     @Test
     public void deleteNeighborhood_returnOk_whenNeighborhoodExist(){
         Neighborhood newNeighborhood = TestUtilsNeighborhood.getNewNeighborhood();
-        HttpEntity<Neighborhood> httpEntity = new HttpEntity<>(newNeighborhood);
-        testRestTemplate.exchange(BASE_URL, HttpMethod.POST, httpEntity, Neighborhood.class);
+        repo.create(newNeighborhood);
 
         ResponseEntity<Void> retorno = testRestTemplate
-                .exchange(BASE_URL + "?name=" + newNeighborhood.getName(), HttpMethod.DELETE, null, void.class);
+                .exchange(BASE_URL + "/" + newNeighborhood.getName(), HttpMethod.DELETE, null, Void.class);
 
         assertThat(retorno.getBody()).isEqualTo(null);
         assertThat(retorno.getStatusCode()).isEqualTo(HttpStatus.OK);
