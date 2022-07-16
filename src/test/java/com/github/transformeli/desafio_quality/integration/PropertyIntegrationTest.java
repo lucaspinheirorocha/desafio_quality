@@ -4,6 +4,7 @@ import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.dto.Room;
 import com.github.transformeli.desafio_quality.repository.PropertyRepository;
 import com.github.transformeli.desafio_quality.util.TestUtilsProperty;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,11 +16,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
+import java.util.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -37,6 +34,14 @@ public class PropertyIntegrationTest {
     @BeforeEach
     void setup() {
         BASE_URL = "http://localhost:" + port + "/api/v1/property";
+    }
+
+    @AfterEach
+    void reset() {
+        Property newProperty = TestUtilsProperty.getNewProperty();
+        if (repo.findByKey(newProperty.getName()).isPresent()) {
+            repo.delete(newProperty.getName());
+        }
     }
 
     @DisplayName("Register property when the property exists")
@@ -83,16 +88,13 @@ public class PropertyIntegrationTest {
     @Test
     public void modifyProperty_returnStatusNotFound_whenPropertyDoesntExist(){
         Property newProperty = TestUtilsProperty.getNewProperty();
-        PropertyRepository dao = new PropertyRepository();
-        Property propertySaved = dao.create(newProperty);
+        Property propertySaved = repo.create(newProperty);
 
         propertySaved.setName("Nova propriedade");
         HttpEntity<Property> httpEntity = new HttpEntity<>(propertySaved);
         ResponseEntity<Void> response = testRestTemplate
-                .exchange(BASE_URL, HttpMethod.PUT, httpEntity, void.class);
+                .exchange(BASE_URL + "/" + newProperty.getName(), HttpMethod.PUT, httpEntity, Void.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
-
-        Optional<Property> propertyFound =  dao.findByKey(propertySaved.getName());
     }
 }
