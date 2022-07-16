@@ -41,11 +41,7 @@ public class NeighborhoodService implements INeighborhoodService {
      * @return
      */
     public Neighborhood create(Neighborhood neighborhood) {
-        Neighborhood createdNeighborhood = null;
-        try {
-            createdNeighborhood = repo.create(neighborhood);
-        } catch (Exception ex) {}
-        return createdNeighborhood;
+        return repo.create(neighborhood);
     }
 
     /**
