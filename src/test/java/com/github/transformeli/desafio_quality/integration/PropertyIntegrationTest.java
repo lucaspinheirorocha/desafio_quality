@@ -4,7 +4,7 @@ import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.dto.Room;
 import com.github.transformeli.desafio_quality.repository.PropertyRepository;
 import com.github.transformeli.desafio_quality.util.TestUtilsProperty;
-import com.github.transformeli.desafio_quality.util.TestUtilsProperty2;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +32,12 @@ public class PropertyIntegrationTest {
 
     @LocalServerPort
     private int port;
+    private String BASE_URL;
+
+    @BeforeEach
+    void setup() {
+        BASE_URL = "http://localhost:" + port + "/api/v1/property";
+    }
 
     @DisplayName("Register property when the property exists")
     @Test
@@ -39,13 +45,11 @@ public class PropertyIntegrationTest {
         Set<Room> listOfRooms = new HashSet<>();
         listOfRooms.add(TestUtilsProperty.getNewRoom());
         Property evelynHouse = TestUtilsProperty.buildProperty("Evelyns House", "Penha", listOfRooms);
-
         repo.create(evelynHouse);
-        String baseUrl = "http://localhost:" + port + "/api/v1/property";
         HttpEntity<Property> httpEntity = new HttpEntity<>(evelynHouse);
 
         ResponseEntity<Property> response = testRestTemplate
-                .exchange(baseUrl, HttpMethod.POST, httpEntity, Property.class);
+                .exchange(BASE_URL, HttpMethod.POST, httpEntity, Property.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.PRECONDITION_FAILED);
     }
@@ -54,11 +58,10 @@ public class PropertyIntegrationTest {
     @Test
     public void registerProperty_whenPropertyDoesntExists(){
         Property newProperty = TestUtilsProperty.getNewProperty();
-        String baseUrl = "http://localhost:" + port + "/api/v1/property";
         HttpEntity<Property> httpEntity = new HttpEntity<>(newProperty);
 
         ResponseEntity<Property> response = testRestTemplate
-                .exchange(baseUrl, HttpMethod.POST, httpEntity, Property.class);
+                .exchange(BASE_URL, HttpMethod.POST, httpEntity, Property.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(newProperty).isNotNull();
@@ -68,11 +71,10 @@ public class PropertyIntegrationTest {
     @DisplayName("Get property when property doesn't exists")
     @Test
     public void getProperty_returnStatusNotFound_whenPropertyDoesntExists() {
-        Property property = TestUtilsProperty2.getNewProperty();
-        String baseUrl = "http://localhost:" + port + "/api/v1/property";
+        Property property = TestUtilsProperty.getNewProperty();
 
         ResponseEntity<Property> response = testRestTemplate
-                .exchange(baseUrl + property.getName(), HttpMethod.GET, null, Property.class);
+                .exchange(BASE_URL + "/" + property.getName(), HttpMethod.GET, null, Property.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
@@ -80,19 +82,17 @@ public class PropertyIntegrationTest {
     @DisplayName("Modify property when property doesn't exist")
     @Test
     public void modifyProperty_returnStatusNotFound_whenPropertyDoesntExist(){
-        String baseUrl = "http://localhost:" + port + "/api/v1/property";
-
         Property newProperty = TestUtilsProperty.getNewProperty();
         PropertyRepository dao = new PropertyRepository();
         Property propertySaved = dao.create(newProperty);
 
         propertySaved.setName("Nova propriedade");
         HttpEntity<Property> httpEntity = new HttpEntity<>(propertySaved);
-        ResponseEntity<Void> response = testRestTemplate.exchange(baseUrl, HttpMethod.PUT, httpEntity, void.class);
+        ResponseEntity<Void> response = testRestTemplate
+                .exchange(BASE_URL, HttpMethod.PUT, httpEntity, void.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
 
         Optional<Property> propertyFound =  dao.findByKey(propertySaved.getName());
-
     }
 }
