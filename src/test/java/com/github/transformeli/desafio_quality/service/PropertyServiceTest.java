@@ -4,8 +4,9 @@ import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.dto.Room;
 import com.github.transformeli.desafio_quality.exception.ErrorPropertyRequestException;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
-import com.github.transformeli.desafio_quality.repository.ICrud;
+import com.github.transformeli.desafio_quality.repository.NeighborhoodRepository;
 import com.github.transformeli.desafio_quality.repository.PropertyRepository;
+import com.github.transformeli.desafio_quality.util.TestUtilsNeighborhood;
 import com.github.transformeli.desafio_quality.util.TestUtilsProperty;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,8 +19,8 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.http.HttpStatus;
 import java.util.HashSet;
+import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
@@ -31,6 +32,8 @@ class PropertyServiceTest {
     PropertyService service;
     @Mock
     PropertyRepository repository;
+    @Mock
+    NeighborhoodRepository neighborhoodRepository;
 
     @BeforeEach
     void setup() {
@@ -45,6 +48,10 @@ class PropertyServiceTest {
         BDDMockito
                 .when(repository.delete(ArgumentMatchers.anyString()))
                 .thenReturn(true);
+
+        BDDMockito
+                .when(neighborhoodRepository.findByKey(ArgumentMatchers.anyString()))
+                .thenReturn(Optional.of(TestUtilsNeighborhood.getNewNeighborhood()));
     }
 
     /**
