@@ -7,7 +7,6 @@ import com.github.transformeli.desafio_quality.exception.NotFoundException;
 import com.github.transformeli.desafio_quality.repository.ICrud;
 import com.github.transformeli.desafio_quality.repository.PropertyRepository;
 import com.github.transformeli.desafio_quality.util.TestUtilsProperty;
-import com.github.transformeli.desafio_quality.util.TestUtilsProperty2;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;

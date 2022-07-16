@@ -5,18 +5,12 @@ import com.github.transformeli.desafio_quality.dto.Room;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
 import com.github.transformeli.desafio_quality.exception.PreconditionFailedException;
 import com.github.transformeli.desafio_quality.util.TestUtilsProperty;
-import com.github.transformeli.desafio_quality.util.TestUtilsProperty2;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
+import java.util.*;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 

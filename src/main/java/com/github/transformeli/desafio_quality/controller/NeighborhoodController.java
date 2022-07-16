@@ -47,7 +47,7 @@ public class NeighborhoodController {
     @DeleteMapping("/{name}")
     public ResponseEntity<Void> delete(@PathVariable String name) {
         service.delete(name);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
