@@ -248,14 +248,7 @@
 					"name": "[204/404] Neighborhood Delete",
 					"request": {
 						"method": "DELETE",
-						"header": [
-							{
-								"key": "name",
-								"value": "Vizinha 2",
-								"type": "text",
-								"disabled": true
-							}
-						],
+						"header": [],
 						"url": {
 							"raw": "127.0.0.1:8080/api/v1/property/neighborhood/Vila Velha",
 							"host": [
