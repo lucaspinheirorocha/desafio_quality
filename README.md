@@ -9,6 +9,9 @@
 * Integração [`src/test/java/com/github/transformeli/desafio_quality/integration`](src/test/java/com/github/transformeli/desafio_quality/integration)
 * Unitários [`src/test/java/com/github/transformeli/desafio_quality`](src/test/java/com/github/transformeli/desafio_quality)
 
+## 🚩 Postman collection
+* Exemplos de Uso [`docs/Desafio-Quality-Grupo-2-Transformeli.postman_collection.json`](docs/Desafio-Quality-Grupo-2-Transformeli.postman_collection.json)
+
 ## 📝 Proposta
 A empresa "Seu Imóvel" precisa ser capaz de calcular a metragem e o custo dos
 diferentes imóveis que possui em sua carteira de clientes.
