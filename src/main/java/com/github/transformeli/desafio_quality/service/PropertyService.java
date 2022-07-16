@@ -1,43 +1,39 @@
 package com.github.transformeli.desafio_quality.service;
 
-import com.github.transformeli.desafio_quality.dto.Neighborhood;
-import com.github.transformeli.desafio_quality.dto.Property;
-import com.github.transformeli.desafio_quality.dto.Room;
+import com.github.transformeli.desafio_quality.dto.*;
 import com.github.transformeli.desafio_quality.exception.NotFoundException;
-import com.github.transformeli.desafio_quality.exception.NullPointerException;
 import com.github.transformeli.desafio_quality.exception.ErrorPropertyRequestException;
-import com.github.transformeli.desafio_quality.exception.NotFoundException;
+import com.github.transformeli.desafio_quality.repository.NeighborhoodRepository;
 import com.github.transformeli.desafio_quality.repository.PropertyRepository;
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.util.Comparator;
-import java.util.Optional;
+
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 public class PropertyService implements IPropertyService {
 
+    @Autowired
+    PropertyRepository repository;
+    @Autowired
+    NeighborhoodRepository neighborhoodRepository;
+
     public boolean validation(Property property) {
-        if(property.getRooms().isEmpty() || property.getNeighborhood()==null){
+        if (property.getRooms().isEmpty() || property.getNeighborhood() == null) {
             throw new NotFoundException("Same attributes not found ");
         }
         return true;
 
     }
-    public boolean validation(Room room){
-        if(room == null){
+
+    public boolean validation(Room room) {
+        if (room == null) {
             throw new NotFoundException("Room not found.");
         }
         return true;
-
     }
-
-    @Autowired
-    private PropertyRepository repository;
 
     /**
      * Total area calculator per room
@@ -89,15 +85,78 @@ public class PropertyService implements IPropertyService {
     }
 
     /**
+     * Calculate room area.
+     *
+     * @param room Room to calculate
+     * @return RoomDTO
+     * @author Isaias Finger
+     */
+    public RoomDTO roomAreaCalculator(Room room) {
+        return RoomDTO.builder()
+                .name(room.getName())
+                .length(room.getLength())
+                .width(room.getWidth())
+                .roomArea(roomTotalArea(room))
+                .build();
+    }
+
+    /**
+     * Calculate total area and price of property,
+     * the biggest room value, area value by room.
+     *
+     * @param prop Property to calculate
+     * @return PropertyDTO
+     * @author Isaias Finger & Lucas Pinheiro Rocha & Evelyn Critini Oliveira
+     */
+    public PropertyDTO propAreaCalculator(Property prop) {
+        PropertyDTO dto = new PropertyDTO();
+        dto.setName(prop.getName());
+        Set<RoomDTO> rooms = new HashSet<>();
+        prop.getRooms().forEach(r -> rooms.add(roomAreaCalculator(r)));
+        dto.setRooms(rooms);
+        dto.setNeighborhood(prop.getNeighborhood());
+        dto.setBiggestRoom(roomAreaCalculator(propBiggestRoom(prop)));
+        dto.setPropertyArea(propTotalArea(prop));
+        dto.setPropertyPrice(propPriceByNeighborhood(prop));
+        return dto;
+    }
+
+    /**
+     * Find all Property
+     *
+     * @author Isaias Finger
+     */
+    public Set<Property> findAll() {
+        return repository.findAll();
+    }
+
+    /**
+     * Find Property by name
+     *
+     * @param name Name of Property
+     * @author Isaias Finger
+     */
+    public Optional<Property> findByKey(String name) {
+        return repository.findByKey(name);
+    }
+
+    /**
      * Create new Property
      *
      * @param property
-     * @author Evelyn Cristini Oliveira / Alexandre Borges Souza
      * @return Property
+     * @author Evelyn Cristini Oliveira / Alexandre Borges Souza
      */
     public Property createNewProperty(Property property) {
         Property result = repository.create(property);
         if (result != null) {
+            Optional<Neighborhood> neighborhood
+                    = neighborhoodRepository.findByKey(result.getNeighborhood().getName());
+            if (neighborhood.isPresent()) {
+                neighborhoodRepository.update(neighborhood.get().getName(), property.getNeighborhood());
+            } else {
+                neighborhoodRepository.create(property.getNeighborhood());
+            }
             return result;
         }
         throw new ErrorPropertyRequestException("Não foi possível criar essa propriedade.");
@@ -107,12 +166,12 @@ public class PropertyService implements IPropertyService {
      * Update an Property
      *
      * @param property
-     * @author  Alexandre Borges Souza / Evelyn Cristini Oliveira
      * @return Property
+     * @author Alexandre Borges Souza / Evelyn Cristini Oliveira
      */
     @Override
     public Property updateProperty(String name, Property property) {
-       Property result = repository.update(name, property);
+        Property result = repository.update(name, property);
         if (result != null) {
             return result;
         }
@@ -120,11 +179,11 @@ public class PropertyService implements IPropertyService {
     }
 
     /**
-     * Delete an Property
+     * Delete a Property
      *
-     * @param property
-     * @author  Evelyn Cristini Oliveira / Alexandre Borges Souza
+     * @param name Name of Property
      * @return Property
+     * @author Evelyn Cristini Oliveira / Alexandre Borges Souza
      */
     @Override
     public Boolean deleteProperty(String name) {

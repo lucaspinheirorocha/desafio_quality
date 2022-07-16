@@ -80,9 +80,9 @@ public class PropertyRepository implements ICrud<Property> {
     }
 
     /**
-     * delete property element
+     * Delete property element
      * @author laridevmeli
-     * @param property element object
+     * @param name Name of Property
      */
     @Override
     public Boolean delete(String name) {

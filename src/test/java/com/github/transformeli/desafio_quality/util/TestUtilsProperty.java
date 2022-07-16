@@ -1,11 +1,8 @@
 package com.github.transformeli.desafio_quality.util;
 
-import com.github.transformeli.desafio_quality.dto.Neighborhood;
 import com.github.transformeli.desafio_quality.dto.Property;
 import com.github.transformeli.desafio_quality.dto.Room;
-
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class TestUtilsProperty {
 
@@ -100,7 +97,14 @@ public class TestUtilsProperty {
         return 0.0;
     }
 
+    public static Room propBiggestRoom() {
+        Property property = getNewProperty();
+        return property.getRooms().stream().max(Comparator.comparing(r -> r.getLength() * r.getWidth())).get();
+    }
 
+    public static Room propBiggestNoRoom () {
+        return  Room.builder().name("").width(null).length(null).build();
+    }
 
 
 }

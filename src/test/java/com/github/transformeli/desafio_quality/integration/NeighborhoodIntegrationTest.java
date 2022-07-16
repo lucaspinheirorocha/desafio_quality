@@ -138,6 +138,6 @@ public class NeighborhoodIntegrationTest {
                 .exchange(BASE_URL + "/" + newNeighborhood.getName(), HttpMethod.DELETE, null, Void.class);
 
         assertThat(retorno.getBody()).isEqualTo(null);
-        assertThat(retorno.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(retorno.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
     }
 }
