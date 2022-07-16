@@ -1,11 +1,13 @@
 package com.github.transformeli.desafio_quality.util;
 
 import com.github.transformeli.desafio_quality.dto.Neighborhood;
+import com.github.transformeli.desafio_quality.exception.NotFoundException;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 public class TestUtilsNeighborhood {
@@ -46,5 +48,40 @@ public class TestUtilsNeighborhood {
             return buildNeighborhood(neighborhoodName, 1.0D);
         }
         return foundNeighborhood.get(0);
+    }
+
+    public static Optional<Neighborhood> findByKeyException() {
+        return Optional.empty();
+    }
+
+    public static Neighborhood updateNeighborhood(String name, Neighborhood neighborhood) {
+        Set<Neighborhood> allNeighborhoods = getSetOfNeighborhood();
+
+        List<Neighborhood> mapped = allNeighborhoods
+                .stream().map(neigh -> {
+                    if(neigh.getName().equals(name)){
+                        return neighborhood;
+                    }
+                    return neigh;
+                }).filter(n -> n.getName().equals(neighborhood.getName())).collect(Collectors.toList());
+        try {
+            if (mapped.size() > 0) {
+                return mapped.get(0);
+            }
+        } catch (Exception ex) {}
+
+        throw new NotFoundException("neighborhood not found");
+    }
+
+    public static Boolean deleteUtil(String key) {
+
+        Set<Neighborhood> allNeighborhoods = getSetOfNeighborhood();
+        Optional<Neighborhood> nFound = allNeighborhoods.stream()
+                .filter(n -> n.getName().equals(key)).findFirst();
+
+        if (nFound.isPresent()) {
+            return true;
+        }
+        throw new NotFoundException("neighborhood not found");
     }
 }
