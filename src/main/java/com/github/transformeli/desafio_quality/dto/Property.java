@@ -19,5 +19,5 @@ public class Property {
     private String name;
     @NotEmpty(message = "A lista de cômodos deve ter pelo menos 1 válido.")
     private Set<@Valid Room> rooms;
-    private @Valid Neighborhood neighborhood;
+    private Neighborhood neighborhood;
 }
