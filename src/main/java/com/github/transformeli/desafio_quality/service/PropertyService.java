@@ -7,10 +7,8 @@ import com.github.transformeli.desafio_quality.repository.NeighborhoodRepository
 import com.github.transformeli.desafio_quality.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
 
 @Service
 public class PropertyService implements IPropertyService {
@@ -140,6 +138,25 @@ public class PropertyService implements IPropertyService {
         return repository.findByKey(name);
     }
 
+    private Property validPropertyNeighborhood(Property property) {
+        Optional<Neighborhood> neighborhood
+                = neighborhoodRepository.findByKey(property.getNeighborhood().getName());
+        if (neighborhood.isPresent()) {
+            if(property.getNeighborhood().getSqMeterPrice() != null) {
+                neighborhoodRepository.update(neighborhood.get().getName(), property.getNeighborhood());
+            }
+            property.setNeighborhood(neighborhood.get());
+            return repository.update(property.getName(), property);
+        } else {
+            if(property.getNeighborhood().getSqMeterPrice() == null) {
+                repository.delete(property.getName());
+                throw new NotFoundException("neighborhood not found");
+            }
+            neighborhoodRepository.create(property.getNeighborhood());
+        }
+        return property;
+    }
+
     /**
      * Create new Property
      *
@@ -150,14 +167,7 @@ public class PropertyService implements IPropertyService {
     public Property createNewProperty(Property property) {
         Property result = repository.create(property);
         if (result != null) {
-            Optional<Neighborhood> neighborhood
-                    = neighborhoodRepository.findByKey(result.getNeighborhood().getName());
-            if (neighborhood.isPresent()) {
-                neighborhoodRepository.update(neighborhood.get().getName(), property.getNeighborhood());
-            } else {
-                neighborhoodRepository.create(property.getNeighborhood());
-            }
-            return result;
+            return validPropertyNeighborhood(result);
         }
         throw new ErrorPropertyRequestException("Não foi possível criar essa propriedade.");
     }
@@ -173,7 +183,7 @@ public class PropertyService implements IPropertyService {
     public Property updateProperty(String name, Property property) {
         Property result = repository.update(name, property);
         if (result != null) {
-            return result;
+            return validPropertyNeighborhood(result);
         }
         throw new ErrorPropertyRequestException("Não foi possível atualizar a propriedade.");
     }
