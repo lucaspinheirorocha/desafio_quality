@@ -1,0 +1,9 @@
+com.github.transformeli.desafio_quality
+com.github.transformeli.desafio_quality.controller
+com.github.transformeli.desafio_quality.dto
+com.github.transformeli.desafio_quality.exception
+com.github.transformeli.desafio_quality.handler
+com.github.transformeli.desafio_quality.integration
+com.github.transformeli.desafio_quality.repository
+com.github.transformeli.desafio_quality.service
+com.github.transformeli.desafio_quality.util
