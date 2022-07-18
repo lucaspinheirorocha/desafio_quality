@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.github.transformeli</groupId>
     <artifactId>desafio_quality</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>desafio_quality</name>
     <description>desafio_quality</description>
     <properties>

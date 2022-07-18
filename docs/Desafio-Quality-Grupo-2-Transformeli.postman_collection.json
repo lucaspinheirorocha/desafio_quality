@@ -1,0 +1,275 @@
+{
+	"info": {
+		"_postman_id": "91261af1-c5d1-43cf-8760-06036178faeb",
+		"name": "Desafio Quality - Grupo 2 - Transformeli",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21824266"
+	},
+	"item": [
+		{
+			"name": "api/v1/property",
+			"item": [
+				{
+					"name": "[200] Property List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/property/",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"property",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[200] Property Calculate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/property/Casa Branca 1",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"property",
+								"Casa Branca 1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[201/412] Property Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Casa Branca 1\",\n    \"rooms\": [\n        {\n            \"name\": \"Quarto 1\",\n            \"length\": 3.0,\n            \"width\": 3.0\n        },\n        {\n            \"name\": \"Quarto 2\",\n            \"length\": 4.0,\n            \"width\": 4.0\n        }\n    ],\n    \"neighborhood\": {\n        \"name\": \"Vizinha 1\",\n        \"sqMeterPrice\": 2533\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/property/",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"property",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[200] Property Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Casa Branca 1\",\n    \"rooms\": [\n        {\n            \"name\": \"Quarto 1\",\n            \"length\": 6.0,\n            \"width\": 6.0\n        },\n        {\n            \"name\": \"Quarto 2\",\n            \"length\": 7.0,\n            \"width\": 7.0\n        }\n    ],\n    \"neighborhood\": {\n        \"name\": \"Vizinha 1\",\n        \"sqMeterPrice\": 2533\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/property/Casa Branca 1",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"property",
+								"Casa Branca 1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[204/404] Property Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/property/Casa Branca 1",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"property",
+								"Casa Branca 1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "api/v1/property/neighborhood",
+			"item": [
+				{
+					"name": "[200] Neighborhood List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/property/neighborhood/",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"property",
+								"neighborhood",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[201] Neighborhood Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Vila Velha\",\n    \"sqMeterPrice\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/property/neighborhood",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"property",
+								"neighborhood"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[200] Neighborhood Update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Vila Velha\",\n    \"sqMeterPrice\": 2000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/property/neighborhood/Vila Velha",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"property",
+								"neighborhood",
+								"Vila Velha"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[204/404] Neighborhood Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "127.0.0.1:8080/api/v1/property/neighborhood/Vila Velha",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"property",
+								"neighborhood",
+								"Vila Velha"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
